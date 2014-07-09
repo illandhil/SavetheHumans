@@ -12,7 +12,12 @@
 
     <Page.Resources>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Save the Humans</x:String>
+        <ControlTemplate x:Key="EnemyTemplate" TargetType="ContentControl">
+            <Grid>
+                <Ellipse Fill="#FF23FF00" Height="100" Stroke="Black" Width="100"/>
+            </Grid>
+        </ControlTemplate>
     </Page.Resources>
 
     <!--
@@ -21,6 +26,11 @@
         * Row 1 contains the rest of the page layout
     -->
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="160"/>
+        </Grid.ColumnDefinitions>
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -28,11 +38,12 @@
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition/>
+            <RowDefinition Height="160"/>
         </Grid.RowDefinitions>
 
         <!-- Back button and page title -->
-        <Grid>
+        <Grid Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
@@ -46,5 +57,23 @@
             <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
         </Grid>
+        <Button x:Name="startButton" Content="Start!" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Click="startButton_Click"/>
+        <StackPanel Grid.Column="2" Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox TextWrapping="Wrap" Text="Avoid These" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ContentControl Content="ContentControl" HorizontalAlignment="Center" VerticalAlignment="Center" Template="{StaticResource EnemyTemplate}"/>
+        </StackPanel>
+        <ProgressBar x:Name="progressBar" Grid.Column="1" Grid.Row="2" Height="20"/>
+        <Canvas x:Name="playArea" Grid.Row="1" Grid.ColumnSpan="3" Background="Black">
+            <StackPanel x:Name="human" Orientation="Vertical">
+                <Ellipse Fill="White" Height="10" Width="10"/>
+                <Rectangle Fill="White" Height="25" Width="10"/>
+            </StackPanel>
+            <TextBlock x:Name="gameOverText" TextWrapping="Wrap" Text="Game Over" FontFamily="Arial Black" FontSize="100" FontStyle="Italic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="422" Canvas.Top="176"/>
+            <Rectangle x:Name="target" Fill="#FF0017FF" Height="50" Canvas.Left="1258.08" Stroke="Black" Canvas.Top="370.119" Width="50" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                <Rectangle.RenderTransform>
+                    <CompositeTransform Rotation="45"/>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Canvas>
     </Grid>
 </Page>
